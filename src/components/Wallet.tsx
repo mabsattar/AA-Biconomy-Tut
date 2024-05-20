@@ -1,10 +1,14 @@
 import {useEffect, useRef, useState} from 'react';
 import { ethers } from "ethers";
 import { ChainId } from "@biconomy/core-types";
+import { BiconomySmartAccount, BiconomySmartAccountConfig } from "@biconomy/account";
 
 export default function Wallet() {
     const sdkRef = useRef<SocialLogin | null>(null);
     const [interval, enableInterval] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
+    const [, setProvider] = useState<providers.Web3Provider>();
+    const [smartAccount, setSmartAccount] = useState<BiconomySmartAccount>();
 
     useEffect(() => {
         let configureLogin: NodeJS.Timeout | undefined;
@@ -21,7 +25,7 @@ export default function Wallet() {
         if (!sdkRef.current) {
             const socialLoginSDK = new SocialLogin();
             await socialLoginSDK.init({
-                chainId: ethers.utils.hexValue(chainId.POLYGON_MUMBAI).toString(),
+                chainId: ethers.utils.hexValue(chainId.Sepolia).toString(),
                 network: "testnet",
             });
             sdkRef.current = socialLoginSDK;
@@ -46,7 +50,7 @@ export default function Wallet() {
               setProvider(web3Provider);
               const config: BiconomySmartAccountConfig = {
                 signer: web3Provider.getSigner(),
-                chainId: ChainId.POLYGON_MUMBAI,
+                chainId: ChainId.Sepolia,
                 bundler: bundler,
                 paymaster: paymaster,
               };
