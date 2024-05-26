@@ -1,6 +1,6 @@
-import {useEffect, useRef, useState} from 'react';
-import { ethers } from "ethers";
+import { ethers,  providers } from "ethers";
 import { ChainId } from "@biconomy/core-types";
+import SocialLogin from "@biconomy/web3-auth";
 import { BiconomySmartAccount, BiconomySmartAccountConfig } from "@biconomy/account";
 import { bundler, paymaster } from "@/constants";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -27,7 +27,7 @@ export default function Wallet() {
         if (!sdkRef.current) {
             const socialLoginSDK = new SocialLogin();
             await socialLoginSDK.init({
-                chainId: ethers.utils.hexValue(chainId.Sepolia).toString(),
+                chainId: ethers.utils.hexValue(ChainId.SEPOLIA).toString(),
                 network: "testnet",
             });
             sdkRef.current = socialLoginSDK;
@@ -53,7 +53,7 @@ export default function Wallet() {
           setProvider(web3Provider);
           const config: BiconomySmartAccountConfig = {
             signer: web3Provider.getSigner(),
-            chainId: ChainId.Sepolia,
+            chainId: ChainId.SEPOLIA,
             bundler: bundler,
             paymaster: paymaster,
           };
@@ -78,7 +78,7 @@ export default function Wallet() {
       }
 
     }
-      ret  return (
+       return (
         <Fragment>
           {/* Logout Button */}
           {smartAccount && (
@@ -115,5 +115,4 @@ export default function Wallet() {
         </Fragment>
       );
     
-    export default Wallet
 }
