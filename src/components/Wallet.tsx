@@ -1,4 +1,5 @@
 import { ethers,  providers } from "ethers";
+import Transfer from "./Transfer";
 import { ChainId } from "@biconomy/core-types";
 import SocialLogin from "@biconomy/web3-auth";
 import { BiconomySmartAccount, BiconomySmartAccountConfig } from "@biconomy/account";
@@ -71,7 +72,7 @@ export default function Wallet() {
       async function logOut() {
         await sdkRef.current?.logout();
 
-        sdkRef.current?.hiddenWallet();
+        sdkRef.current?.hideWallet();
 
         setSmartAccount(undefined);
         enableInterval(false);
@@ -109,7 +110,7 @@ export default function Wallet() {
             {loading && <p>Loading account details...</p>}
     
             {smartAccount && (
-              <Fragment>{/* Add Transfer Component Here */}</Fragment>
+              <Fragment>{ <Transfer smartAccount={smartAccount} />}</Fragment>
             )}
           </div>
         </Fragment>
